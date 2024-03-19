@@ -18,9 +18,14 @@ export function SheepEntry(props: SheepEntryProps) {
     return (
         <div className="sheepEntry">
 
-            <input type="text" value={name} placeholder={colourData.name} onInput={(ev) => {
-                dispatch(editIndexName({ index, value: ev.currentTarget.value }))
-            }} />
+            <input
+                type="text"
+                value={name}
+                placeholder={colourData.name}
+                maxLength={32}
+                onInput={(ev) => {
+                    dispatch(editIndexName({ index, value: ev.currentTarget.value }))
+                }} />
 
             <select value={colour} style={{ background: colourData.colour }} onChange={(ev) => dispatch(editIndexColour({ index, value: Number(ev.target.value) }))} >
                 {Object.entries(SheepColourData).map(([id, colour]) => <option key={id} value={id} style={{ background: colour.colour }}>{`${id} - ${colour.name}`}</option>)}

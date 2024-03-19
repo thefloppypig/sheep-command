@@ -45,7 +45,7 @@ function spawnCommands(input: SheepEntryData[]) {
 }
 
 function spawnCommand(entry: SheepEntryData) {
-  return `/summon minecraft:sheep ~ ~1 ~ {Color:${entry.colour},CustomName:'[{"text":"${entry.name || SheepColourData[entry.colour].name}"}]',Invulnerable:1b}\n`
+  return `summon minecraft:sheep ~ ~1 ~ {Color:${entry.colour},CustomName:'[{"text":"${entry.name || SheepColourData[entry.colour].name}"}]',Invulnerable:1b}\n`
 }
 
 type AppProp = ReturnType<typeof mapState> & { dispatch: AppDispatch };
