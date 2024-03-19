@@ -1,38 +1,42 @@
+button {
+  padding: 2px 9px;
+}
+
+.sheepEntry {
+  height: 25px;
+  white-space: nowrap;
+}
+
+.sheepEntry>select,
+.sheepEntry>button {
+  height: 25px;
+}
+
+.sheepEntry>input {
+  height: 23px;
+  padding: 0px;
+  border: 1px solid;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+.input {
+  margin: 10px;
+  padding-right: 10px;
+  border-right: 1px black solid;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.output {
+  margin: 10px;
+}
+
+.command {
+  padding: 5px;
+  margin: 5px;
+  border: 1px grey solid;
+  background-color: lightgray;
+  border-radius: 10px;
 }

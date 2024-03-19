@@ -1,26 +1,57 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { SheepEntry, SheepEntryData } from './SheepEntry';
+import { AppDispatch, useAppDispatch } from './state/store';
+import { State, addNewToSheepList, resetSheepList, setSheepListToDefault } from './state/reducer';
+import { connect } from 'react-redux';
+import { SheepColourData } from './sheepData';
 
-function App() {
+function App(props: AppProp) {
+  const { dispatch, sheepList } = props;
+
+  const commandList = spawnCommands(sheepList)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className='input'>
+        <button onClick={() => dispatch(addNewToSheepList())}>+</button>
+        <button onClick={() => dispatch(resetSheepList())}>x</button>
+        <button onClick={() => dispatch(setSheepListToDefault())}>Default sheep</button>
+        <br />
+        <br />
+        {sheepList.map((sheepData, index) => {
+          return <SheepEntry key={index} index={index} name={sheepData.name} colour={sheepData.colour}></SheepEntry>
+        })}
+      </div>
+      <div className='output'>
+        <button onClick={() => navigator.clipboard.writeText(commandList.join("\n"))}>Copy</button>
+        <div className='command'>
+          {commandList.map((command, i) => <div key={i}>{command}</div>)}
+        </div>
+      </div>
     </div>
   );
 }
 
-export default App;
+function spawnCommands(input: SheepEntryData[]) {
+  let commandList = [];
+
+
+  for (let index = 0; index < input.length; index++) {
+    const entry = input[index];
+    commandList.push(spawnCommand(entry))
+  }
+  return commandList;
+}
+
+function spawnCommand(entry: SheepEntryData) {
+  return `/summon minecraft:sheep ~ ~1 ~ {Color:${entry.colour},CustomName:'[{"text":"${entry.name || SheepColourData[entry.colour].name}"}]',Invulnerable:1b}\n`
+}
+
+type AppProp = ReturnType<typeof mapState> & { dispatch: AppDispatch };
+
+export function mapState(state: State) {
+  return state
+}
+
+export default connect(mapState)(App);
