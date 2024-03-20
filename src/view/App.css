@@ -19,15 +19,19 @@ button {
   border: 1px solid;
 }
 
-.App {
+.main {
   display: flex;
   width: 100%;
 }
 
-.input {
+.list {
   margin: 5px;
   padding-right: 10px;
   border-right: 1px black solid;
+}
+
+.coord {
+  width: 35px;
 }
 
 .output {

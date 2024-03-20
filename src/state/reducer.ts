@@ -1,34 +1,42 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
-import { SheepEntryData } from "../SheepEntry";
-import { SheepColourData, SheepColourID } from "../sheepData";
+import { SheepEntryData } from "../view/SheepEntry";
+import { sheepColourData, SheepColourID } from "../sheep/sheepData";
+import { SpawnCommandOptions, defaultSpawnCommandOptions } from "../sheep/spawnCommands";
 
-const defaultSheepList: SheepEntryData[] = SheepColourData.map((col, i) => { return { name: "", colour: i } })
+export const defaultSheepList: SheepEntryData[] = sheepColourData.list.map((col, i) => { return { name: "", colourId: i } })
 
-const initialState = {
-    sheepList: [] as SheepEntryData[]
+export const initialState = {
+    options: defaultSpawnCommandOptions as SpawnCommandOptions,
+    sheepList: [] as SheepEntryData[],
 }
 
 export type State = typeof initialState
 
 export type SheepEdit<T> = { index: number, value: T }
+export type OptionEdit<T extends keyof SpawnCommandOptions> = { option: T, value: SpawnCommandOptions[T] }
 
+export const loadState = createAction<State>("loadState");
 export const resetSheepList = createAction("resetSheepList");
 export const addNewToSheepList = createAction("addNewToSheepList");
 export const setSheepListToDefault = createAction("setSheepListToDefault");
 export const deleteIndex = createAction<number>("deleteIndex");
 export const editIndexName = createAction<SheepEdit<string>>("editIndexName");
 export const editIndexColour = createAction<SheepEdit<SheepColourID>>("editIndexColour");
+export const setOption = createAction<OptionEdit<keyof SpawnCommandOptions>>("setOption");
 
 export const reducer = createReducer(initialState, (builder) => {
     builder
         .addCase(resetSheepList, (state, action) => {
             state.sheepList.length = 0;
         })
+        .addCase(loadState, (state, action) => {
+            Object.assign(state, action.payload);
+        })
         .addCase(setSheepListToDefault, (state, action) => {
             state.sheepList = [...defaultSheepList];
         })
         .addCase(addNewToSheepList, (state, action) => {
-            state.sheepList.push({ name: "", colour: 0 });
+            state.sheepList.push({ name: "", colourId: 0 });
         })
         .addCase(deleteIndex, (state, action) => {
             state.sheepList.splice(action.payload, 1);
@@ -39,6 +47,11 @@ export const reducer = createReducer(initialState, (builder) => {
         })
         .addCase(editIndexColour, (state, action) => {
             const { value, index } = action.payload;
-            state.sheepList[index].colour = value;
+            state.sheepList[index].colourId = value;
+        })
+        .addCase(setOption, (state, action) => {
+            const { value, option } = action.payload;
+            // @ts-ignore
+            state.options[option] = value;
         })
 })
