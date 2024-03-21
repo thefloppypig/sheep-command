@@ -1,11 +1,10 @@
-import React from 'react';
-import './App.css';
-import { SheepEntry } from './SheepEntry';
-import { AppDispatch } from '../state/store';
-import { State, addNewToSheepList, initialState, loadState, resetSheepList, setOption, setSheepListToDefault } from '../state/reducer';
 import { connect } from 'react-redux';
 import { spawnCommands } from '../sheep/spawnCommands';
-import { getSavedState, saveState } from '../state/save';
+import { State, addNewToSheepList, resetSheepList, setOption, setSheepListToDefault } from '../state/reducer';
+import { AppDispatch } from '../state/store';
+import './App.css';
+import SaveLoad from './SaveLoad';
+import { SheepEntry } from './SheepEntry';
 
 function App(props: AppProp) {
   const { dispatch, state } = props;
@@ -16,11 +15,8 @@ function App(props: AppProp) {
 
   return (
     <div className="App">
-      <div className='top'>
-        <button onClick={async () => dispatch(loadState(await getSavedState()))}>Load</button>
-        <button onClick={() => saveState(state)}>Save</button>
-        <button onClick={() => dispatch(loadState(initialState))}>Reset</button>
-      </div>
+      <SaveLoad />
+      <hr />
       <div className='options'>
         <div>
           <span>x:<input className='coord' type="number" value={x} onChange={(ev) => dispatch(setOption({ option: "x", value: Number(ev.target.value) }))} /></span>
@@ -31,6 +27,7 @@ function App(props: AppProp) {
         <span>baby:<input className='coord' type="checkbox" checked={baby} onChange={(ev) => dispatch(setOption({ option: "baby", value: ev.target.checked }))} /></span>
         <span>nametagAlwaysVisible:<input className='coord' type="checkbox" checked={nametagAlwaysVisible} onChange={(ev) => dispatch(setOption({ option: "nametagAlwaysVisible", value: ev.target.checked }))} /></span>
       </div>
+      <hr />
       <div className="main">
         <div className='list'>
           <button onClick={() => dispatch(addNewToSheepList())}>+</button>

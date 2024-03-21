@@ -2,10 +2,12 @@ import { createAction, createReducer } from "@reduxjs/toolkit";
 import { SheepEntryData } from "../view/SheepEntry";
 import { sheepColourData, SheepColourID } from "../sheep/sheepData";
 import { SpawnCommandOptions, defaultSpawnCommandOptions } from "../sheep/spawnCommands";
+import { deleteProfileFromStorage, saveState } from "./save";
 
 export const defaultSheepList: SheepEntryData[] = sheepColourData.list.map((col, i) => { return { name: "", colourId: i } })
 
 export const initialState = {
+    activeProfile: "",
     options: defaultSpawnCommandOptions as SpawnCommandOptions,
     sheepList: [] as SheepEntryData[],
 }
@@ -23,6 +25,8 @@ export const deleteIndex = createAction<number>("deleteIndex");
 export const editIndexName = createAction<SheepEdit<string>>("editIndexName");
 export const editIndexColour = createAction<SheepEdit<SheepColourID>>("editIndexColour");
 export const setOption = createAction<OptionEdit<keyof SpawnCommandOptions>>("setOption");
+export const saveNewActiveProfile = createAction("saveNewActiveProfile");
+export const deleteProfileState = createAction("deleteProfile");
 
 export const reducer = createReducer(initialState, (builder) => {
     builder
@@ -53,5 +57,16 @@ export const reducer = createReducer(initialState, (builder) => {
             const { value, option } = action.payload;
             // @ts-ignore
             state.options[option] = value;
+        })
+        .addCase(saveNewActiveProfile, (state, action) => {
+            const newName = window.prompt("new profile name:", "default");
+            if (newName) {
+                state.activeProfile = newName;
+                saveState(state);
+            }
+        })
+        .addCase(deleteProfileState, (state, action) => {
+            deleteProfileFromStorage(state.activeProfile);
+            state.activeProfile = "";
         })
 })

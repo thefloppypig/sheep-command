@@ -9,6 +9,11 @@ import { store } from './state/store';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+window.onbeforeunload = function () {
+  return true;
+};
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>

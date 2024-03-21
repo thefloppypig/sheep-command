@@ -2,6 +2,10 @@ button {
   padding: 2px 9px;
 }
 
+.saveload {
+  margin: 5px;
+}
+
 .sheepEntry {
   height: 25px;
   white-space: nowrap;
