@@ -1,7 +1,7 @@
 {
   "name": "sheep",
   "version": "0.1.0",
-  "homepage": "https://thefloppypig.github.io/sheep",
+  "homepage": "https://thefloppypig.github.io/sheep-command",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
