@@ -41,7 +41,7 @@ function App(props: AppProp) {
         </div>
         <div className='output'>
           <button onClick={() => navigator.clipboard.writeText(commandList.join("\n"))}>Copy</button>
-          <button onClick={() => exportAsFile(commandList.join("\n"), `${state.activeProfile}.mcfunction`, "text/html")}>Export</button>
+          <button onClick={() => exportAsFile(commandList.join("\n"), `${state.activeProfile || `sheep${commandList.length}`}.mcfunction`, "text/html")}>Export</button>
           <div className='command'>
             {commandList.map((command, i) => <div style={{ background: i % 2 ? "inherit" : "#bbbbbb" }} key={i}>{command}</div>)}
           </div>
