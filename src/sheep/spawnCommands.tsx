@@ -25,7 +25,7 @@ export function spawnCommands(input: SheepEntryData[], options?: Partial<SpawnCo
 
 function spawnCommand(entry: SheepEntryData, options: SpawnCommandOptions) {
     const { x, y, z, invulnerable, baby, nametagAlwaysVisible } = options;
-    const baseCommand = `summon minecraft:sheep  ~${x} ~${y} ~${z}`;
+    const baseCommand = `summon minecraft:sheep ~${x} ~${y} ~${z}`;
     const nbt = [`Color:${entry.colourId}`, `CustomName:'[{"text":"${entry.name || sheepColourData.getDisplayName(entry.colourId)}"}]'`];
     if (invulnerable) nbt.push(`Invulnerable:1b`);
     if (baby) nbt.push(`Age:-2147483648`);
