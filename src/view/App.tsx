@@ -41,6 +41,7 @@ function App(props: AppProp) {
         </div>
         <div className='output'>
           <button onClick={() => navigator.clipboard.writeText(commandList.join("\n"))}>Copy</button>
+          <button onClick={() => exportAsFile(commandList.join("\n"), `${state.activeProfile}.mcfunction`, "text/html")}>Export</button>
           <div className='command'>
             {commandList.map((command, i) => <div style={{ background: i % 2 ? "inherit" : "#bbbbbb" }} key={i}>{command}</div>)}
           </div>
@@ -48,6 +49,24 @@ function App(props: AppProp) {
       </div>
     </div>
   );
+}
+
+function exportAsFile(data: string, filename: string, type: string) {
+  var file = new Blob([data], {type: type});
+  // @ts-ignore
+  if (window.navigator.msSaveOrOpenBlob) window.navigator.msSaveOrOpenBlob(file, filename);
+  else { // Others
+      var a = document.createElement("a"),
+              url = URL.createObjectURL(file);
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function() {
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);  
+      }, 0); 
+  }
 }
 
 type AppProp = ReturnType<typeof mapState> & { dispatch: AppDispatch };
