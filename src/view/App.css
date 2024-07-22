@@ -1,3 +1,7 @@
+html {
+  color-scheme: dark;
+}
+
 button {
   padding: 2px 9px;
 }
@@ -12,7 +16,10 @@ button {
 }
 
 .sheepEntry>select,
+.sheepEntry>select>option,
 .sheepEntry>button {
+  font-weight: bold;
+  text-shadow: 2px 2px 3px black;
   height: 25px;
 }
 
@@ -49,6 +56,6 @@ button {
   padding: 5px;
   margin: 5px;
   border: 1px grey solid;
-  background-color: lightgray;
+  background-color: #555;
   border-radius: 10px;
 }

@@ -26,10 +26,10 @@ export enum SheepColourID {
 
 export class SheepColourData {
     public readonly map: Record<string, SheepColour> = {
-        [SheepColourID.White]: { name: "White", colour: "#FFFFFF" },
+        [SheepColourID.White]: { name: "White", colour: "#eeeeee" },
         [SheepColourID.Orange]: { name: "Orange", colour: "#FFA500" },
         [SheepColourID.Magenta]: { name: "Magenta", colour: "#FF00FF" },
-        [SheepColourID.LightBlue]: { name: "LightBlue", nickname: "LightBlue", colour: "#ADD8E6" },
+        [SheepColourID.LightBlue]: { name: "LightBlue", nickname: "LightBlue", colour: "#7799FF" },
         [SheepColourID.Yellow]: { name: "Yellow", colour: "#FFFF00" },
         [SheepColourID.Lime]: { name: "Lime", colour: "#00FF00" },
         [SheepColourID.Pink]: { name: "Pink", colour: "#FFC0CB" },
