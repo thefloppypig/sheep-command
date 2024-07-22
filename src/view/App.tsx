@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { spawnCommands } from '../sheep/spawnCommands';
+import { OutputMode, spawnCommands, spawnJson } from '../sheep/spawnCommands';
 import { State, addNewToSheepList, resetSheepList, setOption, setSheepListToDefault } from '../state/reducer';
 import { AppDispatch } from '../state/store';
 import './App.css';
@@ -9,9 +9,9 @@ import { SheepEntry } from './SheepEntry';
 function App(props: AppProp) {
   const { dispatch, state } = props;
   const { sheepList, options } = state;
-  const { x, y, z, baby, invulnerable, nametagAlwaysVisible } = options;
+  const { x, y, z, baby, invulnerable, nametagAlwaysVisible, commandOutput } = options;
 
-  const commandList = spawnCommands(sheepList, options)
+  const commandList = commandOutput === OutputMode.Command ? spawnCommands(sheepList, options) : spawnJson(sheepList, options)
 
   return (
     <div className="App">
@@ -27,6 +27,7 @@ function App(props: AppProp) {
         <span>baby:<input className='coord' type="checkbox" checked={baby} onChange={(ev) => dispatch(setOption({ option: "baby", value: ev.target.checked }))} /></span>
         <span>nametagAlwaysVisible:<input className='coord' type="checkbox" checked={nametagAlwaysVisible} onChange={(ev) => dispatch(setOption({ option: "nametagAlwaysVisible", value: ev.target.checked }))} /></span>
       </div>
+      <span>commandOutput:<input className='coord' type="checkbox" checked={commandOutput === OutputMode.Command} onChange={(ev) => dispatch(setOption({ option: "commandOutput", value: ev.target.checked ? OutputMode.Command : OutputMode.JSON }))} /></span>
       <hr />
       <div className="main">
         <div className='list'>
@@ -39,13 +40,15 @@ function App(props: AppProp) {
             return <SheepEntry key={index} index={index} name={sheepData.name} colourId={sheepData.colourId} options={options}></SheepEntry>
           })}
         </div>
-        <div className='output'>
-          <button onClick={() => navigator.clipboard.writeText(commandList.join("\n"))}>Copy</button>
-          <button onClick={() => exportAsFile(commandList.join("\n"), `${state.activeProfile || `sheep${commandList.length}`}.mcfunction`, "text/html")}>Export</button>
-          <div className='command'>
-            {commandList.map((command, i) => <div style={{ background: i % 2 ? "inherit" : "#bbbbbb" }} key={i}>{command}</div>)}
+        <pre>
+          <div className='output'>
+            <button onClick={() => navigator.clipboard.writeText(commandList.join("\n"))}>Copy</button>
+            <button onClick={() => exportAsFile(commandList.join("\n"), `${state.activeProfile || `sheep${commandList.length}`}.${commandOutput === OutputMode.Command ? "mcfunction" : "json"}`, "text/html")}>Export</button>
+            <div className='command'>
+              {commandList.map((command, i) => <div style={{ background: i % 2 ? "inherit" : "#bbbbbb" }} key={i}>{command}</div>)}
+            </div>
           </div>
-        </div>
+        </pre>
       </div>
     </div>
   );

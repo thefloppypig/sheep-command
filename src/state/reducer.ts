@@ -59,7 +59,7 @@ export const reducer = createReducer(initialState, (builder) => {
             state.options[option] = value;
         })
         .addCase(saveNewActiveProfile, (state, action) => {
-            const newName = window.prompt("new profile name:", "default");
+            const newName = window.prompt("new profile name:", state.sheepList.length.toString());
             if (newName) {
                 state.activeProfile = newName;
                 saveState(state);

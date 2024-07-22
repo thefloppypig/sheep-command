@@ -1,6 +1,11 @@
 import { SheepEntryData } from '../view/SheepEntry';
 import { sheepColourData } from './sheepData';
 
+export enum OutputMode {
+    Command = 0,
+    JSON = 1,
+}
+
 export const defaultSpawnCommandOptions = {
     x: 0,
     y: 1,
@@ -8,6 +13,7 @@ export const defaultSpawnCommandOptions = {
     invulnerable: true,
     baby: false,
     nametagAlwaysVisible: false,
+    commandOutput: OutputMode.JSON,
 };
 
 export type SpawnCommandOptions = typeof defaultSpawnCommandOptions;
@@ -21,6 +27,18 @@ export function spawnCommands(input: SheepEntryData[], options?: Partial<SpawnCo
         commandList.push(spawnCommand(entry, spawnOption));
     }
     return commandList;
+}
+
+export function spawnJson(input: SheepEntryData[], options?: Partial<SpawnCommandOptions>) {
+    const inputProcessed = []
+    for (const sheep of input) {
+        inputProcessed.push({
+            name: sheep.name ? sheep.name : sheepColourData.getDisplayName(sheep.colourId), color: sheep.colourId
+        })
+    }
+
+    const str = JSON.stringify(inputProcessed, undefined, "    ");
+    return [str]
 }
 
 function spawnCommand(entry: SheepEntryData, options: SpawnCommandOptions) {
